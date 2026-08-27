@@ -43,7 +43,7 @@ import axios from 'axios'
 
 const baseURL =
   import.meta.env.VITE_API_URL ||
-  'http://https://backend-menu-5.onrender.com/api'
+  'http://backend-menu-5.onrender.com/api'
    //'http://127.0.0.1:8001/api'
   
 
