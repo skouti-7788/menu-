@@ -47,10 +47,7 @@ const baseURL =
   'https://backend-menu-5.onrender.com/api'
 
 console.log('BASE URL:', baseURL)
-const baseURL =
-  import.meta.env.VITE_API_URL ||
-  'https://backend-menu-5.onrender.com/api'
-   //'http://127.0.0.1:8001/api'
+ 
   
 
 const api = axios.create({
