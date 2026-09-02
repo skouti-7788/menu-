@@ -1108,7 +1108,7 @@ import {
   RESTAURANT,
   CATEGORIES,
   LANGUAGES,
-  MENU_ITEMS,
+  // MENU_ITEMS,
   api,
   formatPrice,
 } from "../components/Constants";
