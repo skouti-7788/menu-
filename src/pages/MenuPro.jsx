@@ -1133,6 +1133,8 @@ export default function MenuPro() {
 
   const {
     restau,
+    loading,
+    error,
     fetchData,
   } = useData();
 
@@ -1159,7 +1161,9 @@ export default function MenuPro() {
   // DEFAULT DATA
   // --------------------------------------------------------------------------
 
-  const loading = false;
+  // The public menu must not silently fall back to demo content when a
+  // restaurant slug is missing or the API request fails. We keep the restau
+  // as null until the backend confirms the restaurant is valid.
 
   // --------------------------------------------------------------------------
   // TABLE NUMBER
@@ -1334,7 +1338,7 @@ export default function MenuPro() {
       };
     }
 
-    return RESTAURANT;
+    return null;
   }, [restau]);
 
   // --------------------------------------------------------------------------
@@ -1354,8 +1358,7 @@ export default function MenuPro() {
         .filter(Boolean);
     }
 
-    // API empty -> DEFAULT categories
-    return CATEGORIES;
+    return [];
   }, [restau, normalizeCategory]);
 
   // --------------------------------------------------------------------------
@@ -1394,8 +1397,7 @@ export default function MenuPro() {
       }
     }
 
-    // API empty -> DEFAULT menu
-    return MENU_ITEMS;
+    return [];
   }, [restau, normalizeItem]);
 
   // --------------------------------------------------------------------------
@@ -1915,6 +1917,24 @@ export default function MenuPro() {
   // --------------------------------------------------------------------------
   // RENDER
   // --------------------------------------------------------------------------
+
+  if (!loading && !restaurant) {
+    return (
+      <div className="mp-root">
+        <div className="mp-frame">
+          <div className="no-results" style={{ marginTop: 40 }}>
+            <Search size={26} strokeWidth={1.4} />
+            <p>
+              {error || "This restaurant menu could not be loaded."}
+            </p>
+            <span>
+              Please check the menu link or try again in a moment.
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mp-root">
