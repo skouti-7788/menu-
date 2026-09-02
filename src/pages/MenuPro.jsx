@@ -1105,7 +1105,6 @@ import { translations } from "../i18n";
 import { useData } from "../api/data";
 
 import {
-  RESTAURANT,
   CATEGORIES,
   LANGUAGES,
   // MENU_ITEMS,
@@ -1327,15 +1326,8 @@ export default function MenuPro() {
   // --------------------------------------------------------------------------
 
   const restaurant = useMemo(() => {
-    if (
-      restau &&
-      typeof restau === "object" &&
-      !Array.isArray(restau)
-    ) {
-      return {
-        ...RESTAURANT,
-        ...restau,
-      };
+    if (restau && typeof restau === "object" && !Array.isArray(restau)) {
+      return restau;
     }
 
     return null;
@@ -1801,36 +1793,18 @@ export default function MenuPro() {
       setSubmitting(true);
       setOrderError(null);
 
+      const tableToken = tableNumber || "";
+
       const payload = {
-        customer_name:
-          "Client QR",
-
-        phone:
-          "0600000000",
-
-        address:
-          `Table ${tableNumber}`,
-
-        table_token:
-          tableNumber,
-
-        items:
-          cart.map(
-            (line) => ({
-              meal_id:
-                Number(
-                  line.productId
-                ),
-
-              quantity:
-                Number(
-                  line.qty
-                ),
-
-              notes:
-                line.notes || "",
-            })
-          ),
+        customer_name: "",
+        phone: "",
+        address: tableToken ? `Table ${tableToken}` : "",
+        table_token: tableToken,
+        items: cart.map((line) => ({
+          meal_id: Number(line.productId),
+          quantity: Number(line.qty),
+          notes: line.notes || "",
+        })),
       };
 
       try {
@@ -1907,9 +1881,7 @@ export default function MenuPro() {
   const numbreTable =
     restau?.tables
       ?.find(
-        (tab) =>
-          String(tab?.qr_token) ===
-          String(tableNumber)
+        (tab) => String(tab?.number) === String(tableNumber)
       )
       ?.number ??
     tableNumber;
