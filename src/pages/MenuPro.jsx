@@ -2213,9 +2213,9 @@ export default function MenuPro() {
 
                         <h2>
                           {
-                            t?.[
-                              category.key
-                            ] ||
+                           
+                            category.name
+                            ||
                             category.label
                           }
                         </h2>

@@ -1,37 +1,21 @@
 import { useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { FILTERS } from "./Constants";
-// import { useData } from "../api/data";
-// import { useParams } from "react-router-dom";
-
 /* ------------------------------- CategoryTabs --------------------------------- */
 export default function CategoryTabs({
   categories, active, onSelect, stuck,
   searchOpen, setSearchOpen, query, setQuery,
   activeFilters, toggleFilter, t,restau,
 }) {
-  //  const { slug } = useParams();
-  
-    // const {
-    //   restau,
-    //   // error,
-    //   fetchData,
-    // } = useData();
-  
-    // const mslug = slug || "halah-zhpiy0";
-    // useEffect(() => {
-    //   if (mslug) {
-    //     fetchData(mslug);
-    //   }
-    // }, [mslug]); 
+   
+   
 
   const inputRef = useRef(null);
   useEffect(() => {
      
     if (searchOpen) inputRef.current?.focus();
   }, [searchOpen  ]);
-    //  console.log("restau in CategoryTabs:", categories);
-   
+    
   const myCategories = restau?.categories ? categories : restau?.categories || [];
   // console.log(myCategories);
   return (
@@ -49,7 +33,7 @@ export default function CategoryTabs({
                 onClick={() => onSelect(c.key)}
               >
                 {/* <Icon size={14} strokeWidth={2} /> */}
-                {t?.[c.key] || c.name}
+                {c.name || c.label}
               </button>
             );
           })}
