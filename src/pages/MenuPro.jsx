@@ -1104,6 +1104,51 @@ import "../css/MenuPro.css";
 import { translations } from "../i18n";
 import { useData } from "../api/data";
 
+const hexToRgba = (hex, alpha = 1) => {
+  if (!hex || typeof hex !== "string") {
+    return `rgba(31, 41, 55, ${alpha})`;
+  }
+
+  const normalized = hex.replace("#", "");
+  const safeHex =
+    normalized.length === 3
+      ? normalized.split("").map((char) => char + char).join("")
+      : normalized;
+
+  if (!/^[0-9a-fA-F]{6}$/.test(safeHex)) {
+    return `rgba(31, 41, 55, ${alpha})`;
+  }
+
+  const value = Number.parseInt(safeHex, 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const defaultAppearance = {
+  logo: null,
+  header_image: null,
+  background_image: null,
+  primary_color: "#D97706",
+  secondary_color: "#92400E",
+  text_color: "#1F2937",
+  background_color: "#FFFFFF",
+  font_family: "Inter",
+};
+
+const trustedPreviewOrigins = new Set([
+  window.location.origin,
+  import.meta.env.VITE_ADMIN_APP_URL,
+  import.meta.env.VITE_ADMIN_URL,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5174",
+  "https://menu-online.vercel.app",
+].filter(Boolean).map((origin) => origin.replace(/\/+$/, '')));
+
 import {
   CATEGORIES,
   LANGUAGES,
@@ -1332,6 +1377,97 @@ export default function MenuPro() {
 
     return null;
   }, [restau]);
+
+  const [previewAppearance, setPreviewAppearance] = useState(null);
+
+  const isPreviewMode = useMemo(
+    () => new URLSearchParams(window.location.search).get("preview") === "true",
+    []
+  );
+
+  useEffect(() => {
+    if (!isPreviewMode) {
+      setPreviewAppearance(null);
+      return;
+    }
+
+    const handleMessage = (event) => {
+      const origin = event.origin?.replace(/\/+$/, '') || '';
+
+      if (!trustedPreviewOrigins.has(origin)) {
+        return;
+      }
+
+      const payload = event.data;
+
+      if (!payload || payload.type !== 'MENU_ONLINE_APPEARANCE_PREVIEW') {
+        return;
+      }
+
+      if (!payload.appearance || typeof payload.appearance !== 'object') {
+        return;
+      }
+
+      setPreviewAppearance({
+        ...defaultAppearance,
+        ...payload.appearance,
+      });
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => window.removeEventListener('message', handleMessage);
+  }, [isPreviewMode]);
+
+  const appearance = useMemo(() => {
+    const source = isPreviewMode && previewAppearance ? previewAppearance : (restau?.appearance || {});
+    return {
+      ...defaultAppearance,
+      ...source,
+    };
+  }, [isPreviewMode, previewAppearance, restau]);
+
+  const resolvedLogo =
+    appearance.logo ||
+    restaurant?.restaurant?.logo_url ||
+    restaurant?.logo_url ||
+    restaurant?.logo ||
+    null;
+
+  const resolvedHeaderImage =
+    appearance.header_image ||
+    restaurant?.restaurant?.cover_image_url ||
+    restaurant?.cover_image_url ||
+    restaurant?.cover ||
+    null;
+
+  const resolvedBackgroundImage = appearance.background_image || null;
+
+  const menuStyle = useMemo(() => ({
+    "--primary-color": appearance.primary_color || defaultAppearance.primary_color,
+    "--secondary-color": appearance.secondary_color || defaultAppearance.secondary_color,
+    "--text-color": appearance.text_color || defaultAppearance.text_color,
+    "--background-color": appearance.background_color || defaultAppearance.background_color,
+    "--bg": appearance.background_color || defaultAppearance.background_color,
+    "--ink": appearance.text_color || defaultAppearance.text_color,
+    "--ink-dim": appearance.secondary_color || defaultAppearance.secondary_color,
+    "--ink-faint": appearance.secondary_color || defaultAppearance.secondary_color,
+    "--gold": appearance.primary_color || defaultAppearance.primary_color,
+    "--gold-soft": hexToRgba(appearance.primary_color || defaultAppearance.primary_color, 0.18),
+    "--ember": appearance.secondary_color || defaultAppearance.secondary_color,
+    "--ember-soft": hexToRgba(appearance.secondary_color || defaultAppearance.secondary_color, 0.18),
+    "--hairline": hexToRgba(appearance.text_color || defaultAppearance.text_color, 0.18),
+    "--bg-elevated": hexToRgba(appearance.background_color || defaultAppearance.background_color, 0.96),
+    "--bg-elevated-2": hexToRgba(appearance.background_color || defaultAppearance.background_color, 0.82),
+    fontFamily: appearance.font_family || defaultAppearance.font_family,
+    backgroundColor: appearance.background_color || defaultAppearance.background_color,
+    backgroundImage: resolvedBackgroundImage
+      ? `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${resolvedBackgroundImage})`
+      : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
+  }), [appearance, resolvedBackgroundImage]);
 
   // --------------------------------------------------------------------------
   // CATEGORIES
@@ -1909,7 +2045,7 @@ export default function MenuPro() {
   }
 
   return (
-    <div className="mp-root">
+    <div className="mp-root" style={menuStyle}>
 
       <div className="mp-frame">
 
@@ -2009,7 +2145,7 @@ export default function MenuPro() {
 
               <FoodImage
                 src={
-                  restaurant.cover
+                  resolvedHeaderImage || restaurant.cover
                 }
                 alt={
                   restaurant.name
@@ -2027,7 +2163,7 @@ export default function MenuPro() {
 
                     <img
                       src={
-                        restaurant.logo
+                        resolvedLogo || restaurant.logo
                       }
                       alt={
                         restaurant.name
