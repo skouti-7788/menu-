@@ -1386,10 +1386,10 @@ export default function MenuPro() {
   );
 
   useEffect(() => {
-    if (!isPreviewMode) {
-      setPreviewAppearance(null);
-      return;
-    }
+    // if (!isPreviewMode) {
+    //   setPreviewAppearance(null);
+    //   return;
+    // }
 
     const handleMessage = (event) => {
       const origin = event.origin?.replace(/\/+$/, '') || '';
