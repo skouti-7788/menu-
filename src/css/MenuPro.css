@@ -83,7 +83,7 @@ textarea:focus-visible,
   box-shadow:0 10px 24px rgba(0,0,0,0.5);
   flex:0 0 auto;
 }
-.logo-badge img{width:60px;height:60px}
+.logo-badge img{width:70px;height:70px;border-radius:50% ;object-fit:cover;}
 .rating-badge{
   display:flex;align-items:center;gap:5px;
   background:rgba(21,17,13,0.78);
@@ -162,6 +162,7 @@ textarea:focus-visible,
   padding:12px 0 10px;
   transition:box-shadow .25s ease, border-color .25s ease;
   border-bottom:1px solid transparent;
+  
 }
 .cat-tabs-wrap.is-stuck{
   box-shadow:0 12px 24px -18px rgba(0,0,0,0.9);
@@ -190,7 +191,7 @@ textarea:focus-visible,
 .cat-tab-active{
   background:var(--ember);
   border-color:var(--ember);
-  color:#FBEFE8;
+  color:var(--er);
 }
 .search-toggle{
   flex:0 0 auto;
@@ -418,7 +419,7 @@ textarea:focus-visible,
 .stepper-sm span{font-size:12.5px;min-width:10px;}
 .primary-btn{
   flex:1;
-  background:var(--ember);color:#FBEFE8;
+  background:var(--ember);color:var(--er);
   border:none;border-radius:999px;
   padding:14px 18px;
   font-family:var(--font-body);font-weight:700;font-size:14px;

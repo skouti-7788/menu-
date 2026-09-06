@@ -1459,7 +1459,7 @@ export default function MenuPro() {
     "--hairline": hexToRgba(appearance.text_color || defaultAppearance.text_color, 0.18),
     "--bg-elevated": hexToRgba(appearance.background_color || defaultAppearance.background_color, 0.96),
     "--bg-elevated-2": hexToRgba(appearance.background_color || defaultAppearance.background_color, 0.82),
-    fontFamily: appearance.font_family || defaultAppearance.font_family,
+    "--er": appearance.secondary_color === "#ffffff" ? "#2c2a2a" :'#ffffff',
     backgroundColor: appearance.background_color || defaultAppearance.background_color,
     backgroundImage: resolvedBackgroundImage
       ? `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${resolvedBackgroundImage})`
@@ -2017,11 +2017,11 @@ export default function MenuPro() {
   const numbreTable =
     restau?.tables
       ?.find(
-        (tab) => String(tab?.number) === String(tableNumber)
+        (tab) => String(tab?.qr_token) === String(tableNumber)
       )
-      ?.number ??
-    tableNumber;
-
+      ?.number ?? tableNumber;
+  console.log("numbreTable", numbreTable);
+  console.log("tableNumber", tableNumber);
   // --------------------------------------------------------------------------
   // RENDER
   // --------------------------------------------------------------------------
