@@ -2020,8 +2020,7 @@ export default function MenuPro() {
         (tab) => String(tab?.qr_token) === String(tableNumber)
       )
       ?.number ?? tableNumber;
-  console.log("numbreTable", numbreTable);
-  console.log("tableNumber", tableNumber);
+  
   // --------------------------------------------------------------------------
   // RENDER
   // --------------------------------------------------------------------------
