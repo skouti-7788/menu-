@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
 :root{
   --ink:#F4ECDD;
   --ink-dim:#B9AB90;
@@ -22,11 +22,26 @@
 }
 *{box-sizing:border-box;}
 .mp-root{
-  font-family:var(--font-body);
+  /* font-family:var(--font-body); */
   background:var(--bg);
   color:var(--ink);
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
+}
+.mp-root,
+.mp-root button,
+.mp-root input,
+.mp-root textarea,
+.mp-root select,
+.mp-root h1,
+.mp-root h2,
+.mp-root h3,
+.mp-root h4,
+.mp-root h5,
+.mp-root h6,
+.mp-root p,
+.mp-root span,
+.mp-root div {font-family:var(--menu-font-family, var(--font-body)); 
 }
 @media (min-width:900px){
   .mp-root{
@@ -241,11 +256,11 @@ textarea:focus-visible,
   margin-bottom:14px;
 }
 .section-eyebrow h2{
-  font-family:var(--font-display);
   font-weight:600;
   font-size:21px;
   margin:0;
   letter-spacing:-0.01em;
+  color:var(--er1);
 }
 .section-eyebrow::after{
   content:'';flex:1;height:1px;
