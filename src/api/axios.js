@@ -40,13 +40,13 @@
 
 // export default api
 import axios from 'axios'
-console.log('API URL:', import.meta.env.VITE_API_URL)
+// console.log('API URL:', import.meta.env.VITE_API_URL)
 
 const baseURL =
   import.meta.env.VITE_API_URL ||
   'https://backend-menu-5.onrender.com/api'
 
-console.log('BASE URL:', baseURL)
+// console.log('BASE URL:', baseURL)
  
 
    //'http://127.0.0.1:8001/api'
