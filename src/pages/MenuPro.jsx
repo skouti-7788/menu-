@@ -47,6 +47,8 @@ const trustedPreviewOrigins = new Set([
   // "http://localhost:5174",
   // "http://127.0.0.1:5174",
   "https://menu-online.vercel.app",
+  "https://responsable-restaurant-sr5c.vercel.app",
+
 ].filter(Boolean).map((origin) => origin.replace(/\/+$/, '')));
 
 import {
