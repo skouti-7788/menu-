@@ -1,11 +1,12 @@
 import { useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
-import { FILTERS } from "./Constants";
+// import { FILTERS } from "./Constants";
 /* ------------------------------- CategoryTabs --------------------------------- */
 export default function CategoryTabs({
   categories, active, onSelect, stuck,
   searchOpen, setSearchOpen, query, setQuery,
-  activeFilters, toggleFilter, t,restau,
+  // activeFilters, toggleFilter,
+   t,restau,
 }) {
    
    
@@ -71,7 +72,7 @@ export default function CategoryTabs({
               </button>
             )}
           </div>
-          <div className="filter-chips">
+          {/* <div className="filter-chips">
             {FILTERS.map((f) => {
               const Icon = f.icon;
               const isActive = activeFilters.includes(f.key);
@@ -88,8 +89,8 @@ export default function CategoryTabs({
                 </button>
               );
             })}
-          </div>
-        </div>
+          </div>*/}
+        </div> 
       )}
     </div>
   );

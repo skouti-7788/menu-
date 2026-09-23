@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import FoodImage from "./FoodImage";
-import TagRow from "./TagRow";
+// import TagRow from "./TagRow";
 import { formatPrice } from "./Constants";
 
 /* ------------------------------ ProductCard -------------------------------- */
@@ -28,10 +28,10 @@ export default function ProductCard({ item, qtyInCart, onOpen, onQuickAdd, index
         <div>
           <h3 className="product-card-name">{item.name}</h3>
           <p className="product-card-desc">{item.description}</p>
-          <TagRow tags={item.tags} />
+          {/* <TagRow tags={item.tags} /> */}
         </div>
         <div className="product-card-footer">
-          <span className="price-chit">{formatPrice(item.price)}</span>
+          <span className="price-chit">{formatPrice(item.price,t)}</span>
           <button
             type="button"
             className="add-btn"

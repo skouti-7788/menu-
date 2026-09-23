@@ -30,7 +30,7 @@ export default function CartLine({ line, onInc, onDec, onNotes, onRemove, t }) {
               <Plus size={13} />
             </button>
           </div>
-          <span className="cart-line-price">{formatPrice(line.price * line.qty)}</span>
+          <span className="cart-line-price">{formatPrice(line.price * line.qty,t)}</span>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export const translations = {
     emptyCart: "Your order is empty.",
     emptyCartHint: "Tap any dish to add it here.",
     subtotal: "Subtotal",
-    tax: "Tax & service (9%)",
+    tax: "Tax and service (9%)",
     total: "Total",
     language: "Language",
     add: "Add to order",
@@ -49,6 +49,8 @@ export const translations = {
     stagePreparing: "Preparing",
     stagePlating: "Plating",
     stageServing: "On its way",
+    currencySymbol: 'DH',
+
   },
 
   fr: {
@@ -101,9 +103,12 @@ export const translations = {
     stagePreparing: "Préparation",
     stagePlating: "Dressage",
     stageServing: "En route",
+    currencySymbol: 'DH',
+
   },
 
   ar: {
+    currencySymbol: 'د.م', 
     starters: "المقبلات",
     mains: "الأطباق الرئيسية",
     drinks: "المشروبات",

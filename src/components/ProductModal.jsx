@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X, StickyNote, Minus, Plus } from "lucide-react";
 import FoodImage from "./FoodImage";
-import TagRow from "./TagRow";
+// import TagRow from "./TagRow";
 import { formatPrice } from "./Constants";
 
 /* ------------------------------ ProductModal -------------------------------- */
@@ -28,7 +28,7 @@ export default function ProductModal({ item, onClose, onConfirm, t }) {
         <FoodImage src={item.image} alt={item.name} className="modal-img" />
 
         <div className="sheet-content">
-          <TagRow tags={item.tags} />
+          {/* <TagRow tags={item.tags} /> */}
           <h2 className="modal-name">{item.name}</h2>
           <p className="modal-desc">{item.description}</p>
 
@@ -69,7 +69,7 @@ export default function ProductModal({ item, onClose, onConfirm, t }) {
               className="primary-btn"
               onClick={() => onConfirm(item, qty, notes)}
             >
-              {t?.add || "Add to order"} &nbsp;·&nbsp; {formatPrice(item.price * qty)}
+              {t?.add || "Add to order"} &nbsp;·&nbsp; {formatPrice(item.price * qty,t)}
             </button>
           </div>
         </div>

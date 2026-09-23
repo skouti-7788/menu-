@@ -123,7 +123,6 @@ export default function MenuPro() {
       return "";
     }
   }, []);
-
   // --------------------------------------------------------------------------
   // MENU STATE
   // --------------------------------------------------------------------------
@@ -136,7 +135,7 @@ export default function MenuPro() {
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState([]);
+  // const [activeFilters, setActiveFilters] = useState([]);
 
   // --------------------------------------------------------------------------
   // PRODUCT / CART
@@ -285,14 +284,43 @@ export default function MenuPro() {
     []
   );
 
-  useEffect(() => {
-    // if (!isPreviewMode) {
-    //   setPreviewAppearance(null);
-    //   return;
-    // }
+  // useEffect(() => {
+  //   // if (!isPreviewMode) {
+  //   //   setPreviewAppearance(null);
+  //   //   return;
+  //   // }
 
+  //   const handleMessage = (event) => {
+  //     const origin = event.origin?.replace(/\/+$/, '') || '';
+
+  //     if (!trustedPreviewOrigins.has(origin)) {
+  //       return;
+  //     }
+
+  //     const payload = event.data;
+
+  //     if (!payload || payload.type !== 'MENU_ONLINE_APPEARANCE_PREVIEW') {
+  //       return;
+  //     }
+
+  //     if (!payload.appearance || typeof payload.appearance !== 'object') {
+  //       return;
+  //     }
+
+  //     setPreviewAppearance({
+  //       ...defaultAppearance,
+  //       ...payload.appearance,
+  //     });
+  //   };
+
+  //   window.addEventListener('message', handleMessage);
+
+  //   return () => window.removeEventListener('message', handleMessage);
+  // }, [isPreviewMode]);
+  useEffect(() => {
     const handleMessage = (event) => {
-      const origin = event.origin?.replace(/\/+$/, '') || '';
+      const origin =
+        event.origin?.replace(/\/+$/, '') || '';
 
       if (!trustedPreviewOrigins.has(origin)) {
         return;
@@ -300,11 +328,18 @@ export default function MenuPro() {
 
       const payload = event.data;
 
-      if (!payload || payload.type !== 'MENU_ONLINE_APPEARANCE_PREVIEW') {
+      if (
+        !payload ||
+        payload.type !==
+          'MENU_ONLINE_APPEARANCE_PREVIEW'
+      ) {
         return;
       }
 
-      if (!payload.appearance || typeof payload.appearance !== 'object') {
+      if (
+        !payload.appearance ||
+        typeof payload.appearance !== 'object'
+      ) {
         return;
       }
 
@@ -314,11 +349,18 @@ export default function MenuPro() {
       });
     };
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener(
+      'message',
+      handleMessage
+    );
 
-    return () => window.removeEventListener('message', handleMessage);
-  }, [isPreviewMode]);
-
+    return () => {
+      window.removeEventListener(
+        'message',
+        handleMessage
+      );
+    };
+  }, []);
   const appearance = useMemo(() => {
     const source = isPreviewMode && previewAppearance ? previewAppearance : (restau?.appearance || {});
     return {
@@ -594,13 +636,13 @@ export default function MenuPro() {
   // FILTERS
   // --------------------------------------------------------------------------
 
-  const toggleFilter = (key) => {
-    setActiveFilters((prev) =>
-      prev.includes(key)
-        ? prev.filter((filter) => filter !== key)
-        : [...prev, key]
-    );
-  };
+  // const toggleFilter = (key) => {
+  //   setActiveFilters((prev) =>
+  //     prev.includes(key)
+  //       ? prev.filter((filter) => filter !== key)
+  //       : [...prev, key]
+  //   );
+  // };
 
   // --------------------------------------------------------------------------
   // MATCH FILTERS
@@ -628,32 +670,34 @@ export default function MenuPro() {
       }
 
       // FILTERS
-      if (activeFilters.length > 0) {
-        const tags = Array.isArray(item.tags)
-          ? item.tags
-          : [];
+      // if (activeFilters.length > 0) {
+      //   const tags = Array.isArray(item.tags)
+      //     ? item.tags
+      //     : [];
 
-        const hasAll = activeFilters.every(
-          (filter) => {
-            if (filter === "popular") {
-              return (
-                item.featured === true ||
-                tags.includes("popular")
-              );
-            }
+      //   const hasAll = activeFilters.every(
+      //     (filter) => {
+      //       if (filter === "popular") {
+      //         return (
+      //           item.featured === true ||
+      //           tags.includes("popular")
+      //         );
+      //       }
 
-            return tags.includes(filter);
-          }
-        );
+      //       return tags.includes(filter);
+      //     }
+      //   );
 
-        if (!hasAll) {
-          return false;
-        }
-      }
+      //   if (!hasAll) {
+      //     return false;
+      //   }
+      // }
 
       return true;
     },
-    [query, activeFilters]
+    [query, 
+      // activeFilters
+    ]
   );
 
   // --------------------------------------------------------------------------
@@ -880,8 +924,9 @@ export default function MenuPro() {
   // --------------------------------------------------------------------------
 
   const isFiltering =
-    query.trim().length > 0 ||
-    activeFilters.length > 0;
+    query.trim().length > 0 
+    // ||
+    // activeFilters.length > 0;
 
   const visibleCategories =
     isFiltering
@@ -1003,7 +1048,7 @@ export default function MenuPro() {
         (tab) => String(tab?.qr_token) === String(tableNumber)
       )
       ?.number ?? tableNumber;
-  
+
   // --------------------------------------------------------------------------
   // RENDER
   // --------------------------------------------------------------------------
@@ -1241,12 +1286,12 @@ export default function MenuPro() {
               setQuery={
                 setQuery
               }
-              activeFilters={
-                activeFilters
-              }
-              toggleFilter={
-                toggleFilter
-              }
+              // activeFilters={
+              //   activeFilters
+              // }
+              // toggleFilter={
+              //   toggleFilter
+              // }
               t={t}
               restau={
                 restau

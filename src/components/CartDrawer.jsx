@@ -45,15 +45,15 @@ export default function CartDrawer({
           <div className="cart-footer">
             <div className="cart-summary-row">
               <span>{t?.subtotal || "Subtotal"}</span>
-              <span className="mono">{formatPrice(subtotal)}</span>
+              <span className="mono">{formatPrice(subtotal,t)}</span>
             </div>
             <div className="cart-summary-row cart-summary-row-sub">
-              <span>{t?.tax || "Tax & service (9%)"}</span>
-              <span className="mono">{formatPrice(tax)}</span>
+              <span>{t?.tax || "Tax and service (9%)"}</span>
+              <span className="mono">{formatPrice(tax,t)}</span>
             </div>
             <div className="cart-summary-row cart-summary-row-total">
               <span>{t?.total || "Total"}</span>
-              <span className="mono">{formatPrice(total)}</span>
+              <span className="mono">{formatPrice(total,t)}</span>
             </div>
 
             {error && (
@@ -75,10 +75,10 @@ export default function CartDrawer({
                 </>
               ) : error ? (
                 <>
-                  <RotateCcw size={16} /> {t?.retry || "Retry"} &nbsp;·&nbsp; {formatPrice(total)}
+                  <RotateCcw size={16} /> {t?.retry || "Retry"} &nbsp;·&nbsp; {formatPrice(total,t)}
                 </>
               ) : (
-                <>{t?.confirm || "Confirm Order"} &nbsp;·&nbsp; {formatPrice(total)}</>
+                <>{t?.confirm || "Confirm Order"} &nbsp;·&nbsp; {formatPrice(total,t)}</>
               )}
             </button>
           </div>

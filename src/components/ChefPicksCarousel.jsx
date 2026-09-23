@@ -24,7 +24,7 @@ export default function ChefPicksCarousel({ items, onOpen, t }) {
             <div className="pick-card-shade" />
             <div className="pick-card-info">
               <span className="pick-card-name">{item.name}</span>
-              <span className="pick-card-price">{formatPrice(item.price)}</span>
+              <span className="pick-card-price">{formatPrice(item.price,t)}</span>
             </div>
           </button>
         ))}
