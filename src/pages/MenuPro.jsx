@@ -1155,15 +1155,19 @@ export default function MenuPro() {
                   height: 14,
                   marginBottom: 20,
                 }}
-              />
+              /> 
 
             </div>
 
             <div className="skel-card" />
             <div className="skel-card" />
             <div className="skel-card" />
-
-          </div>
+ 
+ 
+            <div className="loading-container">
+              <div className="loading-spinner" />
+            </div>
+           </div>
         ) : (
 
           <>

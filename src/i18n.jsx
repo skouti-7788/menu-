@@ -50,10 +50,11 @@ export const translations = {
     stagePlating: "Plating",
     stageServing: "On its way",
     currencySymbol: 'DH',
-
+    loading:'loading ...'
   },
 
   fr: {
+    loading:'Chargement ...',
     starters: "Entrées",
     mains: "Plats principaux",
     drinks: "Boissons",
@@ -108,6 +109,7 @@ export const translations = {
   },
 
   ar: {
+    loading:'تحميل...',
     currencySymbol: 'د.م', 
     starters: "المقبلات",
     mains: "الأطباق الرئيسية",
