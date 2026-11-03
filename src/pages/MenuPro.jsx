@@ -90,18 +90,29 @@ export default function MenuPro() {
   // API
   // --------------------------------------------------------------------------
 
-  useEffect(() => {
-    if (mslug) {
-      fetchData(mslug);
-    }
-  }, [mslug, fetchData]);
-
   // --------------------------------------------------------------------------
   // Language
   // --------------------------------------------------------------------------
 
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState(() => {
+    const savedLanguage = window.localStorage.getItem("menu-language");
+    return ["en", "fr", "ar"].includes(savedLanguage) ? savedLanguage : "en";
+  });
   const t = translations[lang] ?? translations.en;
+
+  // Load the menu in the selected language. The backend translates restaurant,
+  // category and meal content and preserves manual translations.
+  useEffect(() => {
+    if (mslug) {
+      fetchData(mslug, lang);
+    }
+  }, [mslug, lang, fetchData]);
+
+  useEffect(() => {
+    window.localStorage.setItem("menu-language", lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  }, [lang]);
 
   // --------------------------------------------------------------------------
   // DEFAULT DATA
