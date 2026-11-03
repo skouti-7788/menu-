@@ -101,7 +101,7 @@ export default function MenuPro() {
   const t = translations[lang] ?? translations.en;
 
   // Load the menu in the selected language. The backend translates restaurant,
-  // category and meal content and preserves manual translations.
+  // category and meal content automatically; restaurant users never enter translations.
   useEffect(() => {
     if (mslug) {
       fetchData(mslug, lang);
