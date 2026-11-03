@@ -10,7 +10,7 @@ export const useData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (slug) => {
+  const fetchData = useCallback(async (slug, language = "en") => {
     if (!slug) {
       setRestaurant(null);
       setError("Restaurant slug is missing.");
@@ -21,7 +21,8 @@ export const useData = () => {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/menu/${slug}`);
+      const safeLanguage = ["en", "fr", "ar"].includes(language) ? language : "en";
+      const res = await api.get(`/menu/${slug}`, { params: { lang: safeLanguage } });
       const data = res?.data;
       const isValidPayload =
         data &&
