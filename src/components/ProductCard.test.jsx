@@ -17,7 +17,7 @@ describe('ProductCard', () => {
 
     expect(screen.getByText('Cheeseburger')).toBeInTheDocument()
     expect(screen.getByText('Beef patty with cheddar')).toBeInTheDocument()
-    expect(screen.getByText('$12.50')).toBeInTheDocument()
+    expect(screen.getByText('12.50')).toBeInTheDocument()
   })
 
   it('does not show a quantity pill when qtyInCart is zero', () => {

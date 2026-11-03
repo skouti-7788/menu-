@@ -90,18 +90,29 @@ export default function MenuPro() {
   // API
   // --------------------------------------------------------------------------
 
-  useEffect(() => {
-    if (mslug) {
-      fetchData(mslug);
-    }
-  }, [mslug, fetchData]);
-
   // --------------------------------------------------------------------------
   // Language
   // --------------------------------------------------------------------------
 
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState(() => {
+    const savedLanguage = window.localStorage.getItem("menu-language");
+    return ["en", "fr", "ar"].includes(savedLanguage) ? savedLanguage : "en";
+  });
   const t = translations[lang] ?? translations.en;
+
+  // Load the menu in the selected language. The backend translates restaurant,
+  // category and meal content automatically; restaurant users never enter translations.
+  useEffect(() => {
+    if (mslug) {
+      fetchData(mslug, lang);
+    }
+  }, [mslug, lang, fetchData]);
+
+  useEffect(() => {
+    window.localStorage.setItem("menu-language", lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  }, [lang]);
 
   // --------------------------------------------------------------------------
   // DEFAULT DATA
@@ -370,6 +381,9 @@ export default function MenuPro() {
       ...source,
     };
   }, [isPreviewMode, previewAppearance, restau]);
+
+  const restaurantName = restaurant?.restaurant?.name || restaurant?.name || "Restaurant";
+  const restaurantDescription = restaurant?.restaurant?.description || restaurant?.description || restaurant?.tagline || "";
 
   const resolvedLogo =
     appearance.logo ||
@@ -1181,7 +1195,7 @@ export default function MenuPro() {
                   resolvedHeaderImage || restaurant.cover
                 }
                 alt={
-                  restaurant.name
+                  restaurantName
                 }
                 className="hero-cover"
               />
@@ -1199,7 +1213,7 @@ export default function MenuPro() {
                         resolvedLogo || restaurant.logo
                       }
                       alt={
-                        restaurant.name
+                        restaurantName
                       }
                     />
 
@@ -1233,13 +1247,13 @@ export default function MenuPro() {
 
                 <h1 className="rest-name">
                   {
-                    restaurant.name
+                    restaurantName
                   }
                 </h1>
 
                 <p className="rest-tagline">
                   {
-                    restaurant.tagline
+                    restaurantDescription
                   }
                 </p>
 
@@ -1432,7 +1446,7 @@ export default function MenuPro() {
 
                 <strong>
                   {
-                    restaurant.name
+                    restaurantName
                   }
                 </strong>{" "}
                 ·{" "}

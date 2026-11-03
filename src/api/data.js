@@ -1,4 +1,4 @@
-import { useState , useCallback} from "react";
+import { useState, useCallback, useRef } from "react";
 import api from "./axios";
 
 export const useData = () => {
@@ -9,10 +9,14 @@ export const useData = () => {
   const [restau, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const requestIdRef = useRef(0);
 
-  const fetchData = useCallback(async (slug) => {
+  const fetchData = useCallback(async (slug, language = "en") => {
+    const requestId = ++requestIdRef.current;
+
     if (!slug) {
       setRestaurant(null);
+      setLoading(false);
       setError("Restaurant slug is missing.");
       return;
     }
@@ -21,7 +25,8 @@ export const useData = () => {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/menu/${slug}`);
+      const safeLanguage = ["en", "fr", "ar"].includes(language) ? language : "en";
+      const res = await api.get(`/menu/${slug}`, { params: { lang: safeLanguage } });
       const data = res?.data;
       const isValidPayload =
         data &&
@@ -29,12 +34,16 @@ export const useData = () => {
         !Array.isArray(data) &&
         Object.keys(data).length > 0;
 
+      if (requestId !== requestIdRef.current) return;
+
       if (isValidPayload) {
         setRestaurant(data);
       } else {
         setRestaurant(null);
       }
     } catch (err) {
+      if (requestId !== requestIdRef.current) return;
+
       console.error("Load restaurant menu error:", err);
       setRestaurant(null);
       setError(
@@ -42,7 +51,9 @@ export const useData = () => {
         "Unable to load restaurant menu."
       );
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   }, []);
  

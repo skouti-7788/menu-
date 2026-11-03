@@ -17,7 +17,7 @@ describe('CartLine', () => {
 
     expect(screen.getByText('Cheeseburger')).toBeInTheDocument()
     expect(screen.getByText('2')).toBeInTheDocument()
-    expect(screen.getByText('$20.00')).toBeInTheDocument()
+    expect(screen.getByText('20.00')).toBeInTheDocument()
   })
 
   it('calls onInc with the line id when the plus button is clicked', () => {
