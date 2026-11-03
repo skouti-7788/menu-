@@ -67,4 +67,34 @@ describe("useData multilingual menu loading", () => {
     expect(result.current.error).toBe("Unable to translate menu");
     expect(result.current.loading).toBe(false);
   });
+
+  it("keeps the newest language response when requests finish out of order", async () => {
+    let resolveFrench;
+    let resolveArabic;
+    api.get
+      .mockImplementationOnce(() => new Promise((resolve) => { resolveFrench = resolve; }))
+      .mockImplementationOnce(() => new Promise((resolve) => { resolveArabic = resolve; }));
+
+    const { result } = renderHook(() => useData());
+
+    let frenchRequest;
+    let arabicRequest;
+    await act(async () => {
+      frenchRequest = result.current.fetchData("restaurant-slug", "fr");
+      arabicRequest = result.current.fetchData("restaurant-slug", "ar");
+    });
+
+    await act(async () => {
+      resolveArabic({ data: { restaurant: { name: "مطعم" }, categories: [], meals: [] } });
+      await arabicRequest;
+    });
+
+    await act(async () => {
+      resolveFrench({ data: { restaurant: { name: "Restaurant" }, categories: [], meals: [] } });
+      await frenchRequest;
+    });
+
+    expect(result.current.restau.restaurant.name).toBe("مطعم");
+    expect(result.current.loading).toBe(false);
+  });
 });
