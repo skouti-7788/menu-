@@ -382,6 +382,9 @@ export default function MenuPro() {
     };
   }, [isPreviewMode, previewAppearance, restau]);
 
+  const restaurantName = restaurant?.restaurant?.name || restaurant?.name || "Restaurant";
+  const restaurantDescription = restaurant?.restaurant?.description || restaurant?.description || restaurant?.tagline || "";
+
   const resolvedLogo =
     appearance.logo ||
     restaurant?.restaurant?.logo_url ||
@@ -1192,7 +1195,7 @@ export default function MenuPro() {
                   resolvedHeaderImage || restaurant.cover
                 }
                 alt={
-                  restaurant.name
+                  restaurantName
                 }
                 className="hero-cover"
               />
@@ -1210,7 +1213,7 @@ export default function MenuPro() {
                         resolvedLogo || restaurant.logo
                       }
                       alt={
-                        restaurant.name
+                        restaurantName
                       }
                     />
 
@@ -1244,13 +1247,13 @@ export default function MenuPro() {
 
                 <h1 className="rest-name">
                   {
-                    restaurant.name
+                    restaurantName
                   }
                 </h1>
 
                 <p className="rest-tagline">
                   {
-                    restaurant.tagline
+                    restaurantDescription
                   }
                 </p>
 
@@ -1443,7 +1446,7 @@ export default function MenuPro() {
 
                 <strong>
                   {
-                    restaurant.name
+                    restaurantName
                   }
                 </strong>{" "}
                 ·{" "}
