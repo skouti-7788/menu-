@@ -1,16 +1,12 @@
-import { useState , useCallback} from "react";
+import { useState, useCallback } from "react";
 import api from "./axios";
 
 export const useData = () => {
-  // `restau` starts as null. MenuPro.jsx already treats "no valid restau
-  // yet" as "keep showing the default/demo data", so null here is safe —
-  // it is NEVER used to blank out MenuPro's state, only to signal
-  // "nothing from the API yet / last call failed".
   const [restau, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (slug) => {
+  const fetchData = useCallback(async (slug, language = "en") => {
     if (!slug) {
       setRestaurant(null);
       setError("Restaurant slug is missing.");
@@ -21,7 +17,9 @@ export const useData = () => {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/menu/${slug}`);
+      const res = await api.get(`/menu/${slug}`, {
+        params: { lang: language },
+      });
       const data = res?.data;
       const isValidPayload =
         data &&
@@ -45,7 +43,7 @@ export const useData = () => {
       setLoading(false);
     }
   }, []);
- 
+
   return {
     restau,
     loading,
