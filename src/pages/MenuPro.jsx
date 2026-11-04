@@ -90,18 +90,19 @@ export default function MenuPro() {
   // API
   // --------------------------------------------------------------------------
 
-  useEffect(() => {
-    if (mslug) {
-      fetchData(mslug);
-    }
-  }, [mslug, fetchData]);
-
   // --------------------------------------------------------------------------
   // Language
   // --------------------------------------------------------------------------
 
   const [lang, setLang] = useState("en");
   const t = translations[lang] ?? translations.en;
+
+  // Reload restaurant content whenever the selected language changes.
+  useEffect(() => {
+    if (mslug) {
+      fetchData(mslug, lang);
+    }
+  }, [mslug, lang, fetchData]);
 
   // --------------------------------------------------------------------------
   // DEFAULT DATA
